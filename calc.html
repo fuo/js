@@ -1,0 +1,138 @@
+<html>
+<head>
+</head>
+<body>
+<input id='output' readonly/>
+<br/>
+<button id='one'>1</button>
+<button id='two'>2</button>
+<button id='three'>3</button>
+<button id='add'>+</button>
+<br/>
+<button id='four'>4</button>
+<button id='five'>5</button>
+<button id='six'>6</button>
+<button id='sub'>-</button>
+<br/>
+<button id='seven'>7</button>
+<button id='eight'>8</button>
+<button id='nine'>9</button>
+<button id='multi'>*</button>
+<br/>
+<button id='zero'>0</button>
+<button id='dot'>.</button>
+<button id='equal'>=</button>
+<button id='div'>/</button>
+
+<script >
+
+class Calculator {
+    
+	constructor() {
+    var calc_itself = this;
+		calc_itself.state = {
+	  	input: '',
+      cachedInput: '',
+		  accumulator: 0,      
+      dot: 0,
+      lastOperator: function(){
+      	this.accumulator = this.input
+      },
+	  }
+  }
+  
+  pressNumeric(value) {
+  	this.state.input = parseFloat(`${this.state.input}${value.match(/^[0-9]$/)}`)
+    this.state.cachedInput = this.state.input
+  }
+  
+  pressMultiply() {
+  	this.execute()
+    this.state.lastOperator = function() {
+    	this.accumulator = (this.accumulator || 0) * (this.input || 1)
+    }
+  }
+  
+  pressAdd() {
+  	this.execute()
+    this.state.lastOperator = function() {
+    	this.accumulator = (this.accumulator || 0) + (this.input || 0)
+    }
+  }
+  
+  pressSubtract() {
+  	this.execute()
+    this.state.lastOperator = function() {
+    	this.accumulator = (this.accumulator || 0) - (this.input || 0)
+    }
+  }
+  
+  pressDivide() {
+  	this.execute()
+    this.state.lastOperator = function() {
+    	this.accumulator = (this.accumulator || 0) / (this.input || 1)
+    }
+  }
+  
+  pressDot() {
+    this.state.input = this.state.dot * this.state.cachedInput || (this.state.input || 0) + "."
+    this.state.dot = 1    
+  }
+
+  pressEqual() {
+  	this.execute()
+    this.state.lastOperator = function() {
+    	this.accumulator = this.cachedInput
+    }
+  }
+  
+  execute() {
+  	this.state.lastOperator()
+    this.state.cachedInput = this.state.accumulator
+    this.state.input = ''
+    this.state.dot = 0
+  }
+  
+	getState() { return this.state }
+  
+}
+
+const calc = new Calculator();
+
+const output = document.getElementById('output');
+
+const functionKeys = ['div', 'equal', 'multi', 'add', 'sub'];
+const numberKeys = [
+	'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'zero'
+];
+
+numberKeys.forEach( id => document.getElementById(id)
+  .addEventListener('click', event => {
+    calc.pressNumeric(event.target.innerHTML)
+    output.value = calc.getState().input
+  })
+);
+
+document.getElementById('div').addEventListener('click', () => calc.pressDivide())
+document.getElementById('equal').addEventListener('click', () => calc.pressEqual())
+document.getElementById('multi').addEventListener('click', () => calc.pressMultiply())
+document.getElementById('add').addEventListener('click', () => calc.pressAdd())
+document.getElementById('sub').addEventListener('click', () => calc.pressSubtract())
+document.getElementById('dot').addEventListener('click', () => calc.pressDot())
+
+functionKeys.forEach( key => document.getElementById(key)
+  .addEventListener('click', event => {
+    output.value = calc.getState().cachedInput
+  })
+)
+
+document.getElementById('dot')
+  .addEventListener('click', event => {
+    output.value = calc.getState().input
+    
+  })
+
+</script>
+
+</body>
+</html>
