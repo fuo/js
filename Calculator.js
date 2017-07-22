@@ -5,8 +5,8 @@ class Calculator {
         calc_itself.result = 0;
 		calc_itself.state = {
 	  	    input: '',
-            cachedInput: '',
-		    accumulator: 0,      
+            cachedInput: 0.0,
+		    accumulator: 0.0,      
             lastOperator: function() {
                 var state = this;   
       	        state.accumulator = state.input;
@@ -21,14 +21,18 @@ class Calculator {
   }
 
   pressNumeric(value) {
-  	this.state.input = parseFloat(`${this.state.input}${value.match(/^[0-9]$/)}`);
+  	this.state.input = (`${this.state.input}${value.match(/^[0-9]$/)}`);
     this.state.cachedInput = this.state.input;
 
     this.result = this.state.input;
   };
 
   pressDot() {
-    this.state.input = this.state.dot * this.state.cachedInput || (this.state.input || 0) + ".";
+	this.state.input = this.state.input || '0';
+    this.state.input = (this.state.input + '.').replace(/[^\d\.]/g, "")
+	  .replace(/\./, "x")
+	  .replace(/\./g, "")
+	  .replace(/x/, ".");
     this.state.dot = 1;
 
     this.result = this.state.input;
@@ -75,6 +79,7 @@ class Calculator {
   };
 
   execute() {
+	this.state.input = parseFloat(this.state.input);
   	this.state.lastOperator();
     this.state.cachedInput = this.state.accumulator;
     this.state.input = '';
