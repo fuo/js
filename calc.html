@@ -25,9 +25,7 @@
 <button id='equal'><strong> &#61; </strong></button>
 <button id='divide'> &#247; </button>
 
-
 <script src="Calculator.js"></script>
-
 
 <script >
 
@@ -42,17 +40,11 @@ const calc = new Calculator();
   })
 );
 
-['divide', 'equal', 'multiply', 'add', 'subtract'].forEach( id => document.getElementById(id)
+['divide', 'equal', 'multiply', 'add', 'subtract', 'dot'].forEach( id => document.getElementById(id)
   .addEventListener('click', () => {
       output.value = calc.onPress(id);
     }
   )
-);
-
-document.getElementById('dot').addEventListener(
-  'click', () => {
-    output.value = calc.onPress('dot');
-  }
 );
 
 </script>

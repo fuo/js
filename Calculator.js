@@ -1,17 +1,16 @@
 class Calculator {
     
-	constructor() {
-        var calc_itself = this;    
-		calc_itself.state = {
-	  	    input: '',
-            result: '',
-		    accumulator: 0.0,      
-            lastOperator: function() {
-                var state = this;   
-      	        return state.accumulator = state.input;
-            }
-	    };
-
+  constructor() {
+    var calc_itself = this;    
+	calc_itself.state = {
+	    input: '',
+	    result: '',
+	    accumulator: 0.0,      
+        lastOperator: function() {
+            var state = this;   
+  	        return state.accumulator = state.input;
+        }
+    };
   };
   
   pressNumeric(value) {
