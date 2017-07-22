@@ -14,13 +14,9 @@ class Calculator {
 
   };
   
-  display() {
-      return this.state.cachedInput;
-  }
-
   pressNumeric(value) {
   	this.state.input = `${this.state.input}${value.match(/^[0-9]$/)}`;
-    this.state.cachedInput = this.state.input;
+    return this.state.cachedInput = this.state.input;
   };
 
   pressDot() {
@@ -70,6 +66,7 @@ class Calculator {
   onPress(id) {
     var func = 'press' + id.charAt(0).toUpperCase() + id.slice(1);
     this[func]();
+	return this.state.cachedInput;
   };
 
   execute() {
