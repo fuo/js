@@ -1,5 +1,6 @@
 <html>
 <head>
+    
 </head>
 <body>
 <input id='output' readonly/>
@@ -24,106 +25,37 @@
 <button id='equal'>=</button>
 <button id='divide'>/</button>
 
+
+<script src="Calculator.js"></script>
+
+
 <script >
 
-class Calculator {
-    
-	constructor(output) {
-    var calc_itself = this;
+const output = document.getElementById('output');
+output.value = 0;
 
-    calc_itself.outputHTML = output;
-
-		calc_itself.state = {
-	  	input: '',
-      cachedInput: '',
-		  accumulator: 0,      
-      lastOperator: function(){
-        var state = this;
-
-      	state.accumulator = state.input;
-      },
-      dot: 0
-	  };
-
-  };
-  
-  pressNumeric(value) {
-  	this.state.input = parseFloat(`${this.state.input}${value.match(/^[0-9]$/)}`);
-    this.state.cachedInput = this.state.input;
-
-    this.outputHTML.value = this.state.input;
-  };
-
-  pressDot() {
-    this.state.input = this.state.dot * this.state.cachedInput || (this.state.input || 0) + ".";
-    this.state.dot = 1;
-
-    this.outputHTML.value = this.state.input;
-  };
-
-  pressMultiply() {
-  	this.execute();
-    this.state.lastOperator = function() {
-    	this.accumulator = (this.accumulator || 0) * (this.input || 1);
-    };
-  };
-  
-  pressAdd() {
-  	this.execute();
-    this.state.lastOperator = function() {
-    	this.accumulator = (this.accumulator || 0) + (this.input || 0);
-    };
-  };
-  
-  pressSubtract() {
-  	this.execute();
-    this.state.lastOperator = function() {
-    	this.accumulator = (this.accumulator || 0) - (this.input || 0);
-    };
-  };
-  
-  pressDivide() {
-  	this.execute();
-    this.state.lastOperator = function() {
-    	this.accumulator = (this.accumulator || 0) / (this.input || 1);
-    };
-  };
-  
-  pressEqual() {
-  	this.execute();
-    this.state.lastOperator = function() {
-    	this.accumulator = this.cachedInput;
-    };
-  };
-  
-  onPress(id) {
-    var func = 'press' + id.charAt(0).toUpperCase() + id.slice(1);
-    this[func]();
-  };
-
-  execute() {
-  	this.state.lastOperator();
-    this.state.cachedInput = this.state.accumulator;
-    this.state.input = '';
-    this.state.dot = 0;
-
-    this.outputHTML.value = this.state.cachedInput;
-  };
-  
-	getState() { return this.state; };
-  
-}
-
-const calc = new Calculator(document.getElementById('output'));
+const calc = new Calculator();
 
 ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'zero'].forEach( id => document.getElementById(id)
   .addEventListener('click', event => {
     calc.pressNumeric(event.target.innerHTML);
+    output.value = calc.display();
   })
 );
 
-['divide', 'equal', 'multiply', 'add', 'subtract', 'dot'].forEach( id => document.getElementById(id)
-  .addEventListener('click', () => calc.onPress(id))
+['divide', 'equal', 'multiply', 'add', 'subtract'].forEach( id => document.getElementById(id)
+  .addEventListener('click', () => {
+      calc.onPress(id);
+      output.value = calc.display();
+    }
+  )
+);
+
+document.getElementById('dot').addEventListener(
+  'click', () => {
+    calc.pressDot();
+    output.value = calc.display();
+  }
 );
 
 </script>
