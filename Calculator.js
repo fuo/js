@@ -2,29 +2,25 @@ class Calculator {
     
 	constructor() {
         var calc_itself = this;    
-        calc_itself.result = 0;
 		calc_itself.state = {
 	  	    input: '',
-            cachedInput: 0.0,
+            cachedInput: '',
 		    accumulator: 0.0,      
             lastOperator: function() {
                 var state = this;   
       	        state.accumulator = state.input;
-            },
-            dot: 0
+            }
 	    };
 
   };
   
   display() {
-      return this.result;
+      return this.state.cachedInput;
   }
 
   pressNumeric(value) {
-  	this.state.input = (`${this.state.input}${value.match(/^[0-9]$/)}`);
+  	this.state.input = `${this.state.input}${value.match(/^[0-9]$/)}`;
     this.state.cachedInput = this.state.input;
-
-    this.result = this.state.input;
   };
 
   pressDot() {
@@ -33,9 +29,7 @@ class Calculator {
 	  .replace(/\./, "x")
 	  .replace(/\./g, "")
 	  .replace(/x/, ".");
-    this.state.dot = 1;
-
-    this.result = this.state.input;
+	this.state.cachedInput = this.state.input;
   };
 
   pressMultiply() {
@@ -83,9 +77,6 @@ class Calculator {
   	this.state.lastOperator();
     this.state.cachedInput = this.state.accumulator;
     this.state.input = '';
-    this.state.dot = 0;
-
-    this.result = this.state.cachedInput;
   };
   
 	getState() { return this.state; };
