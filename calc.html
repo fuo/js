@@ -34,13 +34,13 @@ output.value = 0;
 
 const calc = new Calculator();
 
-['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'zero'].forEach( id => document.getElementById(id)
+['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'zero', 'dot'].forEach( id => document.getElementById(id)
   .addEventListener('click', event => {
-    output.value = calc.pressNumeric(event.target.innerHTML);
+    output.value = event.target.innerHTML === '.' ? calc.pressDot() : calc.pressNumeric(event.target.innerHTML);
   })
 );
 
-['divide', 'equal', 'multiply', 'add', 'subtract', 'dot'].forEach( id => document.getElementById(id)
+['divide', 'equal', 'multiply', 'add', 'subtract'].forEach( id => document.getElementById(id)
   .addEventListener('click', () => {
       output.value = calc.onPress(id);
     }
