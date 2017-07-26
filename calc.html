@@ -33,17 +33,19 @@ const output = document.getElementById('output');
 
 const calc = new Calculator();
 
-output.value = calc.display;
+output.value = calc.display();
     
 ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'zero', 'dot'].forEach( id => document.getElementById(id)
   .addEventListener('click', event => {
-    output.value = id === 'dot' ? calc.pressDot() : calc.pressNumeric(event.target.innerHTML);
+    id === 'dot' ? calc.pressDot() : calc.pressNumeric(event.target.innerHTML);
+    output.value = calc.display();
   })
 );
 
 ['divide', 'equal', 'multiply', 'add', 'subtract'].forEach( id => document.getElementById(id)
   .addEventListener('click', () => {
-      output.value = calc.onPress(id);
+      calc.onPress(id);
+      output.value = calc.display();
     }
   )
 );
