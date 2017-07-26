@@ -11,7 +11,7 @@ class Calculator {
    	    execute: function() {
 		 	var state = this;
 			state.input = parseFloat(state.input || 0);
-	    	state.result = state.lastOperator();
+	    	state.lastOperator();
 	    	state.input = '';
 	    }
     };
