@@ -27,10 +27,11 @@ class Calculator {
   };
 
   pressDot() {
-    this.state.input = (this.state.input || '0' + '.').replace(/[^\d\.]/g, "")
-      .replace(/\./, "x")
+    this.state.input = ((this.state.input || '0') + '.')
+    .replace(/[^\d\.]/g, "")
+     .replace(/\./, "x")
       .replace(/\./g, "")
-      .replace(/x/, ".");
+       .replace(/x/, ".");
     this.state.display = this.state.input;
   };
 
