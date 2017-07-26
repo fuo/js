@@ -30,13 +30,14 @@
 <script >
 
 const output = document.getElementById('output');
-output.value = 0;
 
 const calc = new Calculator();
 
+output.value = calc.display;
+    
 ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'zero', 'dot'].forEach( id => document.getElementById(id)
   .addEventListener('click', event => {
-    output.value = event.target.innerHTML === '.' ? calc.pressDot() : calc.pressNumeric(event.target.innerHTML);
+    output.value = id === 'dot' ? calc.pressDot() : calc.pressNumeric(event.target.innerHTML);
   })
 );
 
